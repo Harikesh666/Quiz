@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentQuestionIndex = 0;
     let score = 0;
+    let selected = false;
 
     startBtn.addEventListener("click", startQuiz);
 
@@ -61,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showQuestion() {
+        selected = false; // Reset selection for new question
         nextBtn.classList.add("hidden");
         questionText.textContent = questions[currentQuestionIndex].question;
         choicesList.innerHTML = ""; // clear previous choices
@@ -68,17 +70,36 @@ document.addEventListener("DOMContentLoaded", () => {
         questions[currentQuestionIndex].choices.forEach((choice) => {
             const li = document.createElement("li");
             li.textContent = choice;
-            li.addEventListener("click", () => selectAnswer(choice));
+            li.classList.add("choice");
+
+            li.addEventListener("click", () => {
+                if (!selected) {
+                    // Ensure only one selection
+                    selected = true;
+                    checkAnswer(li, choice);
+                }
+            });
             choicesList.appendChild(li);
         });
     }
 
-    function selectAnswer(choice) {
+    function checkAnswer(selectedLi, choice) {
         const correctAnswer = questions[currentQuestionIndex].answer;
         if (choice === correctAnswer) {
+            selectedLi.classList.add("correct");
             score++;
+        } else {
+            selectedLi.classList.add("incorrect");
         }
+        disableChoices();
         nextBtn.classList.remove("hidden");
+    }
+
+    function disableChoices() {
+        document.querySelectorAll(".choice").forEach((choice) => {
+            choice.classList.add("disabled");
+            choice.style.pointerEvents = "none";
+        });
     }
 
     function showResult() {
