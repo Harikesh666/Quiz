@@ -65,6 +65,41 @@ button:hover {
     display: none;
 }
 
+.choice {
+    cursor: pointer;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #333333;
+    color: white;
+    border: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.choice:hover {
+    background-color: #6200ea;
+    transform: scale(1.05);
+}
+
+/* Selected answer - correct */
+.correct {
+    background-color: #1b5e20; /* Green */
+}
+
+/* Selected answer - incorrect */
+.incorrect {
+    background-color: #b71c1c; /* Red */
+}
+
+/* Disable further selections */
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
 @media (max-width: 620px) {
     body {
         padding: 0 20px;
